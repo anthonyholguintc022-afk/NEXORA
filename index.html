@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <link rel="manifest" href="/NEXORA/manifest.webmanifest">
+<link rel="icon" type="image/png" href="/NEXORA/icon-192.png">
+<link rel="apple-touch-icon" href="/NEXORA/icon-192.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#09090b">
@@ -1411,6 +1414,22 @@ $('#settingsButton').innerHTML = icon('settings');
 
 applyTheme();
 render();
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("/NEXORA/service-worker.js", {
+          scope: "/NEXORA/"
+        })
+        .catch(error => {
+          console.error(
+            "No se pudo activar el modo sin conexión:",
+            error
+          );
+        });
+    });
+  }
+</script>
 </script>
 </body>
 </html>
