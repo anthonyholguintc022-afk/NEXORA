@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iconos de NEXORA</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 32px 20px;
+      background: #09090b;
+      color: white;
+      font-family: system-ui, sans-serif;
+      text-align: center;
+    }
+
+    canvas {
+      display: block;
+      width: 170px;
+      height: 170px;
+      margin: 25px auto;
+      border-radius: 28px;
+    }
+
+    a {
+      display: block;
+      max-width: 300px;
+      margin: 14px auto;
+      padding: 16px;
+      border-radius: 14px;
+      background: #ff244c;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    p {
+      color: #aaa;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Iconos de NEXORA</h1>
+  <p>Descarga las dos imágenes y súbelas a tu repositorio.</p>
+
+  <canvas id="preview" width="512" height="512"></canvas>
+
+  <a id="small">Preparando icono de 192…</a>
+  <a id="large">Preparando icono de 512…</a>
+
+  <script>
+    function draw(canvas, size) {
+      canvas.width = size;
+      canvas.height = size;
+
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "#09090b";
+      ctx.fillRect(0, 0, size, size);
+
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, "#ff244c");
+      gradient.addColorStop(1, "#aa1242");
+
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size * 0.39, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#ffffff";
+      ctx.font = `900 ${size * 0.49}px Arial, sans-serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("N", size / 2, size * 0.53);
+    }
+
+    function prepareDownload(size, id) {
+      const canvas = document.createElement("canvas");
+      draw(canvas, size);
+
+      canvas.toBlob(blob => {
+        if (!blob) return;
+
+        const link = document.getElementById(id);
+        link.href = URL.createObjectURL(blob);
+        link.download = `icon-${size}.png`;
+        link.textContent = `Descargar icono de ${size}`;
+      }, "image/png");
+    }
+
+    draw(document.getElementById("preview"), 512);
+    prepareDownload(192, "small");
+    prepareDownload(512, "large");
+  </script>
+</body>
+</html>
